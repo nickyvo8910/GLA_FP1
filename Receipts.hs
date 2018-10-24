@@ -1,28 +1,36 @@
-module Receipts (Receipt(..),checkout)
+module Receipts (Receipts(..),checkout)
 where
     import Items
     import Data.List
     import Data.Decimal
-    data Receipt = Receipt{
-        onOfferProducts    
-        scannedProducts[..],
-        netPrice :: Decimal
-    }
 
-    }
+    data Receipts = Receipts{  
+        scannedProducts :: [Items],
+        netPrice :: Decimal
+    }deriving (Show, Eq, Ord)
+
     -- checkout
-    checkout :: [Item] -> Receipt
+    checkout :: Receipt -> Receipt
 
     -- scanNew
-    scanNew :: Receipt -> Item -> Quantity -> Receipt
+    scanNew ::  [Items] -> Receipt
+
     -- checkOffer 0 NA -1 BOGOF else Reduced
-    checkOffer :: Item -> Decimal
+    checkOffer :: Items -> Decimal
     -- applyOffer
    
     -- totalPrice
-    totalPrice :: Receipt -> Decimal
+    totalPrice :: [Items] -> Decimal
+
     --exportReciept
 
-    -- Alice Input
-    appleFullPrice = Item 0.50 None
-    
+
+   -- Alice Input
+    appleFP = (Items "Apple" 0.50 NA)
+    watermelonFP = (Items "Watermelon" 3.00 NA)
+    coffeeFP = (Items "Coffee" 6.00 NA)
+    lovageFP = (Items "Lovage" 2.59 NA)
+    cheeseFP =  (Items "Cheese" 3.00 NA)
+    creamCheeseFP = (Items "CreamCheese" 2.50 NA)
+    aliceReceipt = [appleFP,watermelonFP,coffeeFP,lovageFP,cheeseFP,creamCheeseFP]
+

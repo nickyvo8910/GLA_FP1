@@ -1,13 +1,17 @@
 module Items (
-Item(..), Offer
+Items(..)
+, Offer(..)
 ) where
     import Data.Decimal 
 
-    data Item = Item{
+    data Items = Items{
         itName :: String,
-        itNetPrice :: Decimal
+        itNetPrice :: Decimal,
+        itOffer :: Offer
     } deriving (Show, Eq, Ord)
-    data Offer = BOGOF | Reduced | NA 
+    
+
+    data Offer = BOGOF | Reduced | NA deriving (Show, Eq, Ord)
     
 
 
