@@ -157,8 +157,8 @@ where
     mkSingleOffer inputTuple = Offer{
       fstOfferItemIndex = fst (fst inputTuple),
       sndOfferItemIndex = fst (snd inputTuple),
-      offerItemFullPrice = itNetPrice (snd (snd inputTuple)),
-      offerPrice = (/) (itNetPrice (snd (snd inputTuple))) 2.00
+      offerItemFullPrice =  (*) (itNetPrice (snd (snd inputTuple))) 2.00,
+      offerPrice = itNetPrice (snd (snd inputTuple))
       }
     --mkAppliedOffers
     mkAppliedOffers :: [((Int,Item),(Int,Item))] ->[Offer]
@@ -195,7 +195,7 @@ where
     testFullPricePurchases = getFullPricePurchases(mkPurchaseList(scannedProducts(crrReceipt)))
 
     getOfferSaving :: [Offer] -> Double
-    getOfferSaving inputList = (-) ((*) (sum $ map (\x-> offerItemFullPrice x) inputList) 2.00) ((*) (sum $ map (\x-> offerPrice x) inputList) 2.00)
+    getOfferSaving inputList = (-) (sum $ map (\x-> offerItemFullPrice x) inputList) (sum $ map (\x-> offerPrice x) inputList)
 
     testOfferSaving = getOfferSaving (testMkAppliedOffers)
 
@@ -210,13 +210,6 @@ where
 -----------------------------------------------------------------------------------
 -- Make a Receipt
 
--- purchasedItems :: [Purchase],
--- offerApplied :: [Offer],
--- reducedItems :: [Reduced],
--- netPrice :: Double,
--- offerSaving ::Double,
--- reduceSaving ::Double,
--- totalPrice :: Double
     checkout :: [Item] -> Receipt
     checkout itemList = Receipt{
       purchasedItems = mkPurchaseList(scannedItems),
@@ -232,7 +225,32 @@ where
      } where scannedItems = scannedProducts(itemList)
 
 --------------------------------------------------------------------------
+-- toString
 
+    showDecimal :: Double -> String
+    showDecimal x = showFFloat (Just 2) x ""
+
+    --Purchases
+    singlePurchaseToString :: Purchase -> String
+    singlePurchaseToString inputItem = "+" ++ " "++ show(itemIndex inputItem) ++ " "++ show(itemName inputItem) ++ " "++ showDecimal(itemPrice inputItem)
+
+    purchasesToString :: [Purchase] -> String
+    purchasesToString inputList  =unlines( map singlePurchaseToString inputList)
+
+    -- Offers
+    singleOfferToString :: Offer -> String
+    singleOfferToString inputItem = "+" ++ " "++ show(fstOfferItemIndex inputItem) ++ " "++ show(sndOfferItemIndex inputItem) ++ " "++ showDecimal(offerItemFullPrice inputItem)++ " "++showDecimal(offerPrice inputItem)
+
+    offersToString :: [Offer] -> String
+    offersToString inputList  =unlines( map singleOfferToString inputList)
+    -- Reduced
+
+    singleReducedToString :: Reduced -> String
+    singleReducedToString inputItem = "+" ++ " "++ show(reducedItemIndex inputItem) ++ " "++ showDecimal(reducedItemFullPrice inputItem)++ " "++showDecimal(reducedItemPrice inputItem)
+
+    reducedesToString :: [Reduced] -> String
+    reducedesToString inputList  =unlines( map singleReducedToString inputList)
+    -- Total
 
 
 
