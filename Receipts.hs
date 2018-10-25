@@ -1,4 +1,4 @@
-module Receipts (Receipt(..),checkout)
+module Receipts (Receipt(..),checkout, toString)
 where
     import Items
     import Data.List
@@ -249,16 +249,18 @@ where
       purchasesToString (purchasedItems inputReceipt) ++
       offersToString (offerApplied inputReceipt) ++
       reducedesToString (reducedItems inputReceipt) ++
-      "* Totals \n \n"++
-      "+ Full Price :: "++ showDecimal(netPrice inputReceipt)++"\n" ++
-      (if (offersToString (offerApplied inputReceipt) /= "")
-        then "+ Savings from Offers :: "++ showDecimal(offerSaving inputReceipt)++"\n"
-          else "")++
+      if ( purchasesToString (purchasedItems inputReceipt) /= "")
+        then ("* Totals \n \n"++
+        "+ Full Price :: "++ showDecimal(netPrice inputReceipt)++"\n" ++
+        (if (offersToString (offerApplied inputReceipt) /= "")
+          then "+ Savings from Offers :: "++ showDecimal(offerSaving inputReceipt)++"\n"
+            else "")++
 
-      (if (reducedesToString (reducedItems inputReceipt) /= "")
-        then "+ Savings from Reductions :: "++ showDecimal(reduceSaving inputReceipt) ++"\n"
-          else "")++
-      "+ Total Price :: "++ showDecimal(totalPrice inputReceipt)++"\n"
+        (if (reducedesToString (reducedItems inputReceipt) /= "")
+          then "+ Savings from Reductions :: "++ showDecimal(reduceSaving inputReceipt) ++"\n"
+            else "")++
+        "+ Total Price :: "++ showDecimal(totalPrice inputReceipt)++"\n")
+        else "*********** VOID ***********" ++ "\n"
 
 
 

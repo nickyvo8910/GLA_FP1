@@ -1,4 +1,4 @@
-module Bob (bobReceipt)
+module Bob (bobItems)
 where
   import Items
 
@@ -10,4 +10,4 @@ where
   orange =  (Item "Jaffa Oranges" 3.00 3.00 NA)
 
    -- Bob Input
-  bobReceipt  = [pork,chicken,cheese,mCheese,apple,apple,orange,cheese]
+  bobItems  = [pork,chicken,cheese,mCheese,apple,apple,orange,cheese]

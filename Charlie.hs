@@ -1,4 +1,4 @@
-module Charlie (charlieReceipt)
+module Charlie (charlieItems)
 where
   import Items
 
@@ -9,4 +9,4 @@ where
 
 
    -- Charlie Input
-  charlieReceipt  = [pork,apple,bananas,cheese,cheese,cheese]
+  charlieItems  = [pork,apple,bananas,cheese,cheese,cheese]

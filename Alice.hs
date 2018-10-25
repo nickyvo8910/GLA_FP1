@@ -1,4 +1,4 @@
-module Alice (aliceReceipt)
+module Alice (aliceItems)
 where
   import Items
 
@@ -9,4 +9,4 @@ where
   cheeseFP =  (Item "Cheese" 3.00 3.00 BOGOF)
   creamCheeseFP = (Item "Cream Cheese w. BlackPepper" 2.50 1.00 REC)
    -- Alice Input
-  aliceReceipt = [appleFP,appleFP,appleFP,appleFP,appleFP,watermelonFP,coffeeFP,lovageFP,cheeseFP,cheeseFP,creamCheeseFP]
+  aliceItems = [appleFP,appleFP,appleFP,appleFP,appleFP,watermelonFP,coffeeFP,lovageFP,cheeseFP,cheeseFP,creamCheeseFP]
