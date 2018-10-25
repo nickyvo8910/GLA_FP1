@@ -130,15 +130,15 @@ where
     --splitOfferList
     --pairOfferItems
     -- return [(A1,A2),(A3,A4)]
-    processOfferItemWithKeyword :: String ->[((Int,Item),(Int,Item))]
-    processOfferItemWithKeyword  inputKeyword = pairOfferItems (splitOfferList(evenUpOfferList(filterOfferItemWithKeyWord(getItemsOnOffer(scannedProducts(crrReceipt))) (inputKeyword))))
+    processOfferItemWithKeyword :: [(Int,Item)] -> String ->[((Int,Item),(Int,Item))]
+    processOfferItemWithKeyword inputList inputKeyword = pairOfferItems (splitOfferList(evenUpOfferList(filterOfferItemWithKeyWord(getItemsOnOffer(inputList)) (inputKeyword))))
 
     --For each item name in offer
     --process them
     --concat them into [[((Int,Item),(Int,Item))]]
 
-    processOfferItemWithKeywordList ::  [String] -> [[((Int,Item),(Int,Item))]]
-    processOfferItemWithKeywordList inputKeywords =  map processOfferItemWithKeyword inputKeywords
+    processOfferItemWithKeywordList ::[(Int,Item)] ->  [String] -> [[((Int,Item),(Int,Item))]]
+    processOfferItemWithKeywordList inputList inputKeywords =  map (processOfferItemWithKeyword inputList) inputKeywords
 
     --Normalise the data as we don't need order in here
     preSortOffer :: [[((Int,Item),(Int,Item))]] ->[((Int,Item),(Int,Item))]
@@ -149,7 +149,6 @@ where
     sortOffer :: [((Int,Item),(Int,Item))] -> [((Int,Item),(Int,Item))]
     sortOffer inputList = sortBy (\ x y -> compare (fst(snd x)) (fst(snd x))) inputList
 
-    testSortOffer = sortOffer(preSortOffer(processOfferItemWithKeywordList(getOrderedGroupNamesFromConfig(bogofItems))))
 
 
     --mkSingleOffer
@@ -164,7 +163,6 @@ where
     mkAppliedOffers :: [((Int,Item),(Int,Item))] ->[Offer]
     mkAppliedOffers inputList = map mkSingleOffer inputList
 
-    testMkAppliedOffers = mkAppliedOffers (testSortOffer)
 
 -----------------------------------------------------------------------------------
      -- Make a list of Reduced Items
@@ -183,7 +181,6 @@ where
     mkReducedList :: [(Int,Item)] -> [Reduced]
     mkReducedList inputList = map mkReducedItem inputList
 
-    testReducedList = mkReducedList(getItemsOnReduce(scannedProducts(crrReceipt)))
 
 -----------------------------------------------------------------------------------
 -- Make the Total section
@@ -192,17 +189,16 @@ where
     getFullPricePurchases :: [Purchase] -> Double
     getFullPricePurchases inputList = sum $ map (\x-> itemPrice x) inputList
 
-    testFullPricePurchases = getFullPricePurchases(mkPurchaseList(scannedProducts(crrReceipt)))
+
+
 
     getOfferSaving :: [Offer] -> Double
     getOfferSaving inputList = (-) (sum $ map (\x-> offerItemFullPrice x) inputList) (sum $ map (\x-> offerPrice x) inputList)
 
-    testOfferSaving = getOfferSaving (testMkAppliedOffers)
 
     getReduceSaving :: [Reduced] -> Double
     getReduceSaving inputList = (-)  (sum $ map (\x-> reducedItemFullPrice x) inputList) (sum $ map (\x-> reducedItemPrice x) inputList)
 
-    testReducedSaving = getReduceSaving(testReducedList)
 
     getTotalPrice :: Double ->Double ->Double ->Double
     getTotalPrice net offered reduced = (-) net ((+) offered reduced)
@@ -213,15 +209,12 @@ where
     checkout :: [Item] -> Receipt
     checkout itemList = Receipt{
       purchasedItems = mkPurchaseList(scannedItems),
-      -- Start DangerZone
-      --Contain hardcode for crrReceipt instead of scannedItems
-      offerApplied = mkAppliedOffers(sortOffer(preSortOffer(processOfferItemWithKeywordList(getOrderedGroupNamesFromConfig(bogofItems))))),
-      --End DangerZone
+      offerApplied = mkAppliedOffers(sortOffer(preSortOffer(processOfferItemWithKeywordList scannedItems(getOrderedGroupNamesFromConfig(bogofItems))))),
       reducedItems = mkReducedList(getItemsOnReduce(scannedItems)),
       netPrice = getFullPricePurchases(mkPurchaseList(scannedItems)),
-      offerSaving =getOfferSaving (mkAppliedOffers(sortOffer(preSortOffer(processOfferItemWithKeywordList(getOrderedGroupNamesFromConfig(bogofItems)))))),
+      offerSaving =getOfferSaving (mkAppliedOffers(sortOffer(preSortOffer(processOfferItemWithKeywordList scannedItems(getOrderedGroupNamesFromConfig(bogofItems)))))),
       reduceSaving = getReduceSaving(mkReducedList(getItemsOnReduce(scannedItems))) ,
-      totalPrice = getTotalPrice (getFullPricePurchases(mkPurchaseList(scannedItems))) (getOfferSaving (mkAppliedOffers(sortOffer(preSortOffer(processOfferItemWithKeywordList(getOrderedGroupNamesFromConfig(bogofItems))))))) (getReduceSaving(mkReducedList(getItemsOnReduce(scannedItems))))
+      totalPrice = getTotalPrice (getFullPricePurchases(mkPurchaseList(scannedItems))) (getOfferSaving (mkAppliedOffers(sortOffer(preSortOffer(processOfferItemWithKeywordList scannedItems (getOrderedGroupNamesFromConfig(bogofItems))))))) (getReduceSaving(mkReducedList(getItemsOnReduce(scannedItems))))
      } where scannedItems = scannedProducts(itemList)
 
 --------------------------------------------------------------------------
@@ -234,23 +227,57 @@ where
     singlePurchaseToString :: Purchase -> String
     singlePurchaseToString inputItem = "+" ++ " "++ show(itemIndex inputItem) ++ " "++ show(itemName inputItem) ++ " "++ showDecimal(itemPrice inputItem)
 
+
     purchasesToString :: [Purchase] -> String
-    purchasesToString inputList  =unlines( map singlePurchaseToString inputList)
+    purchasesToString inputList
+     |(length inputList) >0 =  "* Items Purchased \n \n" ++ unlines( map singlePurchaseToString inputList) ++ "\n"
+     |otherwise =""
 
     -- Offers
     singleOfferToString :: Offer -> String
     singleOfferToString inputItem = "+" ++ " "++ show(fstOfferItemIndex inputItem) ++ " "++ show(sndOfferItemIndex inputItem) ++ " "++ showDecimal(offerItemFullPrice inputItem)++ " "++showDecimal(offerPrice inputItem)
 
     offersToString :: [Offer] -> String
-    offersToString inputList  =unlines( map singleOfferToString inputList)
+    offersToString inputList
+     |(length inputList) >0 =  "* Offers Applied \n \n" ++ unlines( map singleOfferToString inputList) ++ "\n"
+     |otherwise =""
     -- Reduced
 
     singleReducedToString :: Reduced -> String
     singleReducedToString inputItem = "+" ++ " "++ show(reducedItemIndex inputItem) ++ " "++ showDecimal(reducedItemFullPrice inputItem)++ " "++showDecimal(reducedItemPrice inputItem)
 
     reducedesToString :: [Reduced] -> String
-    reducedesToString inputList  =unlines( map singleReducedToString inputList)
+    reducedesToString inputList
+     |(length inputList) >0 =  "* Reduced Items \n \n" ++ unlines( map singleReducedToString inputList) ++ "\n"
+     |otherwise =""
     -- Total
+
+    -- data Receipt = Receipt{
+    --     purchasedItems :: [Purchase],
+    --     offerApplied :: [Offer],
+    --     reducedItems :: [Reduced],
+    --     netPrice :: Double,
+    --     offerSaving ::Double,
+    --     reduceSaving ::Double,
+    --     totalPrice :: Double
+    -- }deriving (Show)
+
+    toString :: Receipt -> String
+    toString inputReceipt =
+      purchasesToString (purchasedItems inputReceipt) ++
+      offersToString (offerApplied inputReceipt) ++
+      reducedesToString (reducedItems inputReceipt) ++
+      "* Totals \n \n"++
+      "+ Full Price :: "++ showDecimal(netPrice inputReceipt) ++
+      (if (offersToString (offerApplied inputReceipt) /= "")
+        then "+ Savings from Offers :: "++ showDecimal(offerSaving inputReceipt)
+          else "")++
+
+      (if (reducedesToString (reducedItems inputReceipt) /= "")
+        then "+ Savings from Reductions :: "++ showDecimal(reduceSaving inputReceipt)
+          else "")++
+      "+ Total Price :: "++ showDecimal(totalPrice inputReceipt)
+
 
 
 
