@@ -137,8 +137,8 @@ where
     --process them
     --concat them into [[((Int,Item),(Int,Item))]]
 
-    groupingOfferItemWithKeywordList ::  [String] -> [[((Int,Item),(Int,Item))]]
-    groupingOfferItemWithKeywordList inputKeywords =  map processOfferItemWithKeyword inputKeywords
+    processOfferItemWithKeywordList ::  [String] -> [[((Int,Item),(Int,Item))]]
+    processOfferItemWithKeywordList inputKeywords =  map processOfferItemWithKeyword inputKeywords
 
     --Normalise the data as we don't need order in here
     preSortOffer :: [[((Int,Item),(Int,Item))]] ->[((Int,Item),(Int,Item))]
@@ -149,7 +149,7 @@ where
     sortOffer :: [((Int,Item),(Int,Item))] -> [((Int,Item),(Int,Item))]
     sortOffer inputList = sortBy (\ x y -> compare (fst(snd x)) (fst(snd x))) inputList
 
-    testSortOffer = sortOffer(preSortOffer(groupingOfferItemWithKeywordList(getOrderedGroupNamesFromConfig(bogofItems))))
+    testSortOffer = sortOffer(preSortOffer(processOfferItemWithKeywordList(getOrderedGroupNamesFromConfig(bogofItems))))
 
 
     --mkSingleOffer
@@ -204,10 +204,32 @@ where
 
     testReducedSaving = getReduceSaving(testReducedList)
 
+    getTotalPrice :: Double ->Double ->Double ->Double
+    getTotalPrice net offered reduced = (-) net ((+) offered reduced)
+
 -----------------------------------------------------------------------------------
 -- Make a Receipt
-  mkReceipt ::
 
+-- purchasedItems :: [Purchase],
+-- offerApplied :: [Offer],
+-- reducedItems :: [Reduced],
+-- netPrice :: Double,
+-- offerSaving ::Double,
+-- reduceSaving ::Double,
+-- totalPrice :: Double
+    mkReceipt :: [Item] -> Receipt
+    mkReceipt itemList = Receipt{
+      purchasedItems = mkPurchaseList(scannedItems),
+      -- Start DangerZone
+      --Contain hardcode for crrReceipt instead of scannedItems
+      offerApplied = mkAppliedOffers(sortOffer(preSortOffer(processOfferItemWithKeywordList(getOrderedGroupNamesFromConfig(bogofItems))))),
+      --End DangerZone
+      reducedItems = mkReducedList(getItemsOnReduce(scannedItems)),
+      netPrice = getFullPricePurchases(mkPurchaseList(scannedItems)),
+      offerSaving =getOfferSaving (mkAppliedOffers(sortOffer(preSortOffer(processOfferItemWithKeywordList(getOrderedGroupNamesFromConfig(bogofItems)))))),
+      reduceSaving = getReduceSaving(mkReducedList(getItemsOnReduce(scannedItems))) ,
+      totalPrice = getTotalPrice (getFullPricePurchases(mkPurchaseList(scannedItems))) (getOfferSaving (mkAppliedOffers(sortOffer(preSortOffer(processOfferItemWithKeywordList(getOrderedGroupNamesFromConfig(bogofItems))))))) (getReduceSaving(mkReducedList(getItemsOnReduce(scannedItems))))
+     } where scannedItems = scannedProducts(itemList)
 
 
 
