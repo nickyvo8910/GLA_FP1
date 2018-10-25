@@ -185,6 +185,33 @@ where
 
     testReducedList = mkReducedList(getItemsOnReduce(scannedProducts(crrReceipt)))
 
+-----------------------------------------------------------------------------------
+-- Make the Total section
+
+  -- getting the full price from purchases
+    getFullPricePurchases :: [Purchase] -> Double
+    getFullPricePurchases inputList = sum $ map (\x-> itemPrice x) inputList
+
+    testFullPricePurchases = getFullPricePurchases(mkPurchaseList(scannedProducts(crrReceipt)))
+
+  -- getting the full price from offer
+  -- getting the full price of item pairs and multiple by 2
+    getFullPriceOffers :: [Offer] -> Double
+    getFullPriceOffers inputList = (*) (sum $ map (\x-> offerItemFullPrice x) inputList) 2.00
+
+    testFullPriceOffers = getFullPriceOffers(testMkAppliedOffers)
+  --getting the offer price from offer
+  -- getting the offer price of item pairs and multiple by 2
+    getOfferPrice :: [Offer] -> Double
+    getOfferPrice inputList = (*) (sum $ map (\x-> offerPrice x) inputList) 2.00
+
+    testOfferPrice = getOfferPrice(testMkAppliedOffers)
+
+    --Get Offer Saving
+    getOfferSaving :: Double -> Double ->Double
+    getOfferSaving fullPrice offerPrice =  (-) fullPrice offerPrice
+
+    testGetTotalSaving = getOfferSaving (testFullPriceOffers) (testOfferPrice)
 
 
 
@@ -196,34 +223,31 @@ where
 
 
 
-    --mkAppliedOffers
-    -- mkAppliedOffers :: [((Int,Item),(Int,Item))] -> [Offer]
-    -- mkAppliedOffers [] = []
-    -- mkAppliedOffers (x:[]) = []
-    -- mkAppliedOffers (x:xs) = [(fst x), (itNetPrice (snd x))]
-    -- sortAppliedOffers
+
+        --mkAppliedOffers
+        -- mkAppliedOffers :: [((Int,Item),(Int,Item))] -> [Offer]
+        -- mkAppliedOffers [] = []
+        -- mkAppliedOffers (x:[]) = []
+        -- mkAppliedOffers (x:xs) = [(fst x), (itNetPrice (snd x))]
+        -- sortAppliedOffers
 
 
 
 
-    -- -- group them
-    -- -- get the name in order
-    -- groupingOfferItems :: [(Int,Item)] -> [(Int,Item)]
-    -- groupingOfferItems inputList = sortBy (\ x y -> compare ( getItNameFromTuple(x)) (getItNameFromTuple(y))) inputList
-    --
-    -- getOrderedGroupNames :: [(Int,Item)] -> [[String]]
-    -- getOrderedGroupNames inputList = groupBy (==)( map (\x -> itName x) (map (\x -> (snd x)) (groupingOfferItems inputList)))
-    --
-    -- --get 1st Indexes (index A)
-    -- get1stIndexes :: [[String]] ->[Int]
-    -- get1stIndexes inputList = [length x | x <- inputList]
+        -- -- group them
+        -- -- get the name in order
+        -- groupingOfferItems :: [(Int,Item)] -> [(Int,Item)]
+        -- groupingOfferItems inputList = sortBy (\ x y -> compare ( getItNameFromTuple(x)) (getItNameFromTuple(y))) inputList
+        --
+        -- getOrderedGroupNames :: [(Int,Item)] -> [[String]]
+        -- getOrderedGroupNames inputList = groupBy (==)( map (\x -> itName x) (map (\x -> (snd x)) (groupingOfferItems inputList)))
+        --
+        -- --get 1st Indexes (index A)
+        -- get1stIndexes :: [[String]] ->[Int]
+        -- get1stIndexes inputList = [length x | x <- inputList]
 
-    -- totalPrice
-    -- totalPrice :: Receipts -> Double
-    -- totalPrice receipts = roundToTwoDecimals $ fold (+) 0 (itNetPrice Items Receipts receipts)
-    -- totalPrice thisReceipt = sum $ map (\x-> itNetPrice x) crrList
-    --   where crrList = scannedProducts thisReceipt
-    --exportReciept
 
-    -- groupingOfferItems ::  [(Int,Item)] -> [String] -> [(Int,Item)]
-    -- groupingOfferItems inputList inputNames = [(filterOfferItemWithKeyWord inputList x)| x<-inputNames]
+        --exportReciept
+
+        -- groupingOfferItems ::  [(Int,Item)] -> [String] -> [(Int,Item)]
+        -- groupingOfferItems inputList inputNames = [(filterOfferItemWithKeyWord inputList x)| x<-inputNames]
