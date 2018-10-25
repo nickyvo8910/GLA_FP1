@@ -20,7 +20,7 @@ bogofItems aka Items on Offer are currently hardcoded into Receipt.hs
 --> Can be placed in something like a centralModule.hs in the future
 
 there're currently quotation marks enclosing the itemName in the output string
--> this is from Show() because it exports values so that i can be read again by Read()
+-> this is from Show() because it exports values so that it can be read again by Read()
 **output**
 -------------------------------
 
