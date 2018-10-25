@@ -1,4 +1,4 @@
-module Receipt (Receipt(..))
+module Receipt (Receipt(..),checkout)
 where
     import Items
     import Data.List
@@ -217,8 +217,8 @@ where
 -- offerSaving ::Double,
 -- reduceSaving ::Double,
 -- totalPrice :: Double
-    mkReceipt :: [Item] -> Receipt
-    mkReceipt itemList = Receipt{
+    checkout :: [Item] -> Receipt
+    checkout itemList = Receipt{
       purchasedItems = mkPurchaseList(scannedItems),
       -- Start DangerZone
       --Contain hardcode for crrReceipt instead of scannedItems
@@ -231,6 +231,7 @@ where
       totalPrice = getTotalPrice (getFullPricePurchases(mkPurchaseList(scannedItems))) (getOfferSaving (mkAppliedOffers(sortOffer(preSortOffer(processOfferItemWithKeywordList(getOrderedGroupNamesFromConfig(bogofItems))))))) (getReduceSaving(mkReducedList(getItemsOnReduce(scannedItems))))
      } where scannedItems = scannedProducts(itemList)
 
+--------------------------------------------------------------------------
 
 
 
