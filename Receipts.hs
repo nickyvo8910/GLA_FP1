@@ -169,11 +169,21 @@ where
 -----------------------------------------------------------------------------------
      -- Make a list of Reduced Items
 
-
+    -- Filter out items from scannedProducts that are on reduce
     getItemsOnReduce :: [(Int,Item)] ->[(Int,Item)]
     getItemsOnReduce inputTuple = filter (\n -> ( getItOfferFromTuple(n)  == REC)) inputTuple
 
-    -- getReducedItems :: [(Int,Item)] ->
+    mkReducedItem :: (Int,Item) -> Reduced
+    mkReducedItem inputTuple = Reduced{
+     reducedItemIndex = fst inputTuple,
+     reducedItemFullPrice = itNetPrice (snd inputTuple),
+     reducedItemPrice = getItPriceFromTuple inputTuple
+      }
+
+    mkReducedList :: [(Int,Item)] -> [Reduced]
+    mkReducedList inputList = map mkReducedItem inputList
+
+    testReducedList = mkReducedList(getItemsOnReduce(scannedProducts(crrReceipt)))
 
 
 
