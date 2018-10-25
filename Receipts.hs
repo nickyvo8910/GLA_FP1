@@ -255,45 +255,8 @@ where
         (if (offersToString (offerApplied inputReceipt) /= "")
           then "+ Savings from Offers :: "++ showDecimal(offerSaving inputReceipt)++"\n"
             else "")++
-
         (if (reducedesToString (reducedItems inputReceipt) /= "")
           then "+ Savings from Reductions :: "++ showDecimal(reduceSaving inputReceipt) ++"\n"
             else "")++
         "+ Total Price :: "++ showDecimal(totalPrice inputReceipt)++"\n")
         else "*********** VOID ***********" ++ "\n"
-
-
-
-
-
-
-
-
-
-        --mkAppliedOffers
-        -- mkAppliedOffers :: [((Int,Item),(Int,Item))] -> [Offer]
-        -- mkAppliedOffers [] = []
-        -- mkAppliedOffers (x:[]) = []
-        -- mkAppliedOffers (x:xs) = [(fst x), (itNetPrice (snd x))]
-        -- sortAppliedOffers
-
-
-
-
-        -- -- group them
-        -- -- get the name in order
-        -- groupingOfferItems :: [(Int,Item)] -> [(Int,Item)]
-        -- groupingOfferItems inputList = sortBy (\ x y -> compare ( getItNameFromTuple(x)) (getItNameFromTuple(y))) inputList
-        --
-        -- getOrderedGroupNames :: [(Int,Item)] -> [[String]]
-        -- getOrderedGroupNames inputList = groupBy (==)( map (\x -> itName x) (map (\x -> (snd x)) (groupingOfferItems inputList)))
-        --
-        -- --get 1st Indexes (index A)
-        -- get1stIndexes :: [[String]] ->[Int]
-        -- get1stIndexes inputList = [length x | x <- inputList]
-
-
-        --exportReciept
-
-        -- groupingOfferItems ::  [(Int,Item)] -> [String] -> [(Int,Item)]
-        -- groupingOfferItems inputList inputNames = [(filterOfferItemWithKeyWord inputList x)| x<-inputNames]
