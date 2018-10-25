@@ -1,5 +1,7 @@
-module Alice (aliceReceipt)  where
-import Items
+module Alice (aliceReceipt)
+where
+  import Items
+
   appleFP = (Item "Apple" 0.50 0.50  BOGOF)
   watermelonFP = (Item "Watermelon" 3.00 3.00 NA)
   coffeeFP = (Item "Sumatran Coffee Beans" 6.00 6.00 NA)

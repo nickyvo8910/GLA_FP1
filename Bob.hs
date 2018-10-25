@@ -1,5 +1,6 @@
-module Bob (bobReceipt)  where
-import Items
+module Bob (bobReceipt)
+where
+  import Items
 
   pork = (Item "Pork" 4.00 4.00 NA)
   chicken = (Item "Chicken" 4.00 4.00 NA)
