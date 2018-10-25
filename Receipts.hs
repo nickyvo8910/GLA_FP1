@@ -250,18 +250,8 @@ where
     reducedesToString inputList
      |(length inputList) >0 =  "* Reduced Items \n \n" ++ unlines( map singleReducedToString inputList) ++ "\n"
      |otherwise =""
-    -- Total
 
-    -- data Receipt = Receipt{
-    --     purchasedItems :: [Purchase],
-    --     offerApplied :: [Offer],
-    --     reducedItems :: [Reduced],
-    --     netPrice :: Double,
-    --     offerSaving ::Double,
-    --     reduceSaving ::Double,
-    --     totalPrice :: Double
-    -- }deriving (Show)
-
+     -- toString
     toString :: Receipt -> String
     toString inputReceipt =
       purchasesToString (purchasedItems inputReceipt) ++
