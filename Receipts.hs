@@ -1,4 +1,4 @@
-module Receipt (Receipt(..),checkout)
+module Receipts (Receipt(..),checkout)
 where
     import Items
     import Data.List
