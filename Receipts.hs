@@ -41,15 +41,7 @@ where
 
     bogofItems = ("Apple",0.50) : ("Cheese",3.00) : []
 
-    appleFP = (Item "Apple" 0.50 0.50  BOGOF)
-    watermelonFP = (Item "Watermelon" 3.00 3.00 NA)
-    coffeeFP = (Item "Coffee" 6.00 6.00 NA)
-    lovageFP = (Item "Lovage" 2.59 2.59 NA)
-    cheeseFP =  (Item "Cheese" 3.00 3.00 BOGOF)
-    creamCheeseFP = (Item "CreamCheese" 2.50 1.00 REC)
-     -- Alice Input
-    aliceReceipt = [appleFP,appleFP,appleFP,appleFP,appleFP,watermelonFP,coffeeFP,lovageFP,cheeseFP,cheeseFP,creamCheeseFP]
-    crrReceipt =[]++aliceReceipt
+
  -----------------------------------------------------------------------------------
      --Shared Resource
 
@@ -258,15 +250,15 @@ where
       offersToString (offerApplied inputReceipt) ++
       reducedesToString (reducedItems inputReceipt) ++
       "* Totals \n \n"++
-      "+ Full Price :: "++ showDecimal(netPrice inputReceipt) ++
+      "+ Full Price :: "++ showDecimal(netPrice inputReceipt)++"\n" ++
       (if (offersToString (offerApplied inputReceipt) /= "")
-        then "+ Savings from Offers :: "++ showDecimal(offerSaving inputReceipt)
+        then "+ Savings from Offers :: "++ showDecimal(offerSaving inputReceipt)++"\n"
           else "")++
 
       (if (reducedesToString (reducedItems inputReceipt) /= "")
-        then "+ Savings from Reductions :: "++ showDecimal(reduceSaving inputReceipt)
+        then "+ Savings from Reductions :: "++ showDecimal(reduceSaving inputReceipt) ++"\n"
           else "")++
-      "+ Total Price :: "++ showDecimal(totalPrice inputReceipt)
+      "+ Total Price :: "++ showDecimal(totalPrice inputReceipt)++"\n"
 
 
 
