@@ -9,8 +9,8 @@ where
 
     data Receipt = Receipt{
         purchasedItems :: [Purchase],
-        -- offerApplied :: [Offer],
-        -- reducedItems :: [Reduced],
+        offerApplied :: [Offer],
+        reducedItems :: [Reduced],
         netPrice :: Double,
         offerSaving ::Double,
         reduceSaving ::Double,
@@ -194,25 +194,19 @@ where
 
     testFullPricePurchases = getFullPricePurchases(mkPurchaseList(scannedProducts(crrReceipt)))
 
-  -- getting the full price from offer
-  -- getting the full price of item pairs and multiple by 2
-    getFullPriceOffers :: [Offer] -> Double
-    getFullPriceOffers inputList = (*) (sum $ map (\x-> offerItemFullPrice x) inputList) 2.00
+    getOfferSaving :: [Offer] -> Double
+    getOfferSaving inputList = (-) ((*) (sum $ map (\x-> offerItemFullPrice x) inputList) 2.00) ((*) (sum $ map (\x-> offerPrice x) inputList) 2.00)
 
-    testFullPriceOffers = getFullPriceOffers(testMkAppliedOffers)
-  --getting the offer price from offer
-  -- getting the offer price of item pairs and multiple by 2
-    getOfferPrice :: [Offer] -> Double
-    getOfferPrice inputList = (*) (sum $ map (\x-> offerPrice x) inputList) 2.00
+    testOfferSaving = getOfferSaving (testMkAppliedOffers)
 
-    testOfferPrice = getOfferPrice(testMkAppliedOffers)
+    getReduceSaving :: [Reduced] -> Double
+    getReduceSaving inputList = (-)  (sum $ map (\x-> reducedItemFullPrice x) inputList) (sum $ map (\x-> reducedItemPrice x) inputList)
 
-    --Get Offer Saving
-    getOfferSaving :: Double -> Double ->Double
-    getOfferSaving fullPrice offerPrice =  (-) fullPrice offerPrice
+    testReducedSaving = getReduceSaving(testReducedList)
 
-    testGetTotalSaving = getOfferSaving (testFullPriceOffers) (testOfferPrice)
-
+-----------------------------------------------------------------------------------
+-- Make a Receipt
+  mkReceipt ::
 
 
 
