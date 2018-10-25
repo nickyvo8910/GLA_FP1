@@ -11,11 +11,9 @@ module Main (main) where
     let aliceReceipt = toString (checkout aliceItems)
     let bobReceipt = toString (checkout bobItems)
     let charlieReceipt = toString (checkout charlieItems)
-    let emptyReceipt = toString (checkout [])
     generateReceipt aliceReceipt
     generateReceipt bobReceipt
     generateReceipt charlieReceipt
-    generateReceipt emptyReceipt
 
 
   generateReceipt :: String -> IO ()
