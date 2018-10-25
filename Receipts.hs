@@ -2,10 +2,9 @@ module Receipts (Receipt(..),checkout, toString)
 where
     import Items
     import Data.List
-    import Data.Function
     import Numeric
-    -- import Data.Decimal
-    -- showFDouble (Just 2) theDouble  ""
+    ------------------------------------------------------------------------
+    -- Declaring dataType
 
     data Receipt = Receipt{
         purchasedItems :: [Purchase],
@@ -36,8 +35,8 @@ where
       reducedItemPrice ::Double
     }deriving (Show)
 
- -----------------------------------------------------------------------------------
-    --Mock input
+    ------------------------------------------------------------------------
+    -- Declaring Hard Code Data --> Can be placed in a Central module in future development
 
     bogofItems = ("Apple",0.50) : ("Cheese",3.00) : []
 
@@ -151,6 +150,7 @@ where
       offerItemFullPrice =  (*) (itNetPrice (snd (snd inputTuple))) 2.00,
       offerPrice = itNetPrice (snd (snd inputTuple))
       }
+
     --mkAppliedOffers
     mkAppliedOffers :: [((Int,Item),(Int,Item))] ->[Offer]
     mkAppliedOffers inputList = map mkSingleOffer inputList
@@ -210,7 +210,7 @@ where
      } where scannedItems = scannedProducts(itemList)
 
 --------------------------------------------------------------------------
--- toString
+-- toString --> Only show if there are items in the reciept
 
     showDecimal :: Double -> String
     showDecimal x = showFFloat (Just 2) x ""
@@ -243,7 +243,7 @@ where
      |(length inputList) >0 =  "* Reduced Items \n \n" ++ unlines( map singleReducedToString inputList) ++ "\n"
      |otherwise =""
 
-     -- toString
+     -- export the String
     toString :: Receipt -> String
     toString inputReceipt =
       purchasesToString (purchasedItems inputReceipt) ++

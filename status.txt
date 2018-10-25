@@ -1,3 +1,104 @@
+studentID : 2253715
+status: Completed
+
 **functionality implemented**
+-------------------------------
+Each purchased item will be presented in an enumerated list
+Items must be displayed in the order they were presented in the shopping basket
+If there are no offers/reductions then details about offers/reductions will not be displayed
+Prices must be displayed to two decimal places
+List indices must be displayed as increasing integers followed by a space
+Offers must be applied in order they are found in the input list
+
+Receipt can only be printed if it's not empty
+
+
 
 **known issues**
+-------------------------------
+bogofItems aka Items on Offer are currently hardcoded into Receipt.hs
+--> Can be placed in something like a centralModule.hs in the future
+
+there're currently quotation marks enclosing the itemName in the output string
+-> this is from Show() because it exports values so that i can be read again by Read()
+**output**
+-------------------------------
+
+<start>
+* Items Purchased
+
++ 1 "Apple" 0.50
++ 2 "Apple" 0.50
++ 3 "Apple" 0.50
++ 4 "Apple" 0.50
++ 5 "Apple" 0.50
++ 6 "Watermelon" 3.00
++ 7 "Sumatran Coffee Beans" 6.00
++ 8 "Lovage" 2.59
++ 9 "Cheese" 3.00
++ 10 "Cheese" 3.00
++ 11 "Cream Cheese w. BlackPepper" 2.50
+
+* Offers Applied
+
++ 1 2 1.00 0.50
++ 3 4 1.00 0.50
++ 9 10 6.00 3.00
+
+* Reduced Items
+
++ 11 2.50 1.00
+
+* Totals
+
++ Full Price :: 22.59
++ Savings from Offers :: 4.00
++ Savings from Reductions :: 1.50
++ Total Price :: 17.09
+<end>
+<start>
+* Items Purchased
+
++ 1 "Pork" 4.00
++ 2 "Chicken" 4.00
++ 3 "Cheese" 3.00
++ 4 "Mozzarella Cheese" 0.99
++ 5 "Apple" 0.50
++ 6 "Apple" 0.50
++ 7 "Jaffa Oranges" 3.00
++ 8 "Cheese" 3.00
+
+* Offers Applied
+
++ 5 6 1.00 0.50
++ 3 8 6.00 3.00
+
+* Totals
+
++ Full Price :: 18.99
++ Savings from Offers :: 3.50
++ Total Price :: 15.49
+<end>
+<start>
+* Items Purchased
+
++ 1 "Pork" 4.00
++ 2 "Apple" 0.50
++ 3 "Bananas" 0.80
++ 4 "Cheese" 3.00
++ 5 "Cheese" 3.00
++ 6 "Cheese" 3.00
+
+* Reduced Items
+
++ 1 4.00 2.00
++ 4 3.00 1.00
++ 5 3.00 1.00
++ 6 3.00 1.00
+
+* Totals
+
++ Full Price :: 14.30
++ Savings from Reductions :: 8.00
++ Total Price :: 6.30
+<end>

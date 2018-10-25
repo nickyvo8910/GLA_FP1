@@ -5,7 +5,7 @@ module Main (main) where
   import Items
   import Receipts
   --  ------------------------------------------------------------------- [ Main ]
-
+  
   main :: IO ()
   main = do
     let aliceReceipt = toString (checkout aliceItems)
