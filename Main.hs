@@ -1,7 +1,9 @@
 module Main (main) where
-import Items
-import Receipts
-import System.IO
+  import Alice
+  import Bob
+  import Charlie
+  import Item
+  import Receipt
 --  ------------------------------------------------------------------- [ Main ]
 
 main :: IO ()
@@ -21,5 +23,3 @@ generateReceipt r = do
   putStrLn "<end>"
 
 --  -------------------------------------------------------------------- [ EOF ]
-
- 

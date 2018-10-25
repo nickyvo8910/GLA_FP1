@@ -1,6 +1,6 @@
 module Bob (bobReceipt)
 where
-  import Items
+  import Item
 
   pork = (Item "Pork" 4.00 4.00 NA)
   chicken = (Item "Chicken" 4.00 4.00 NA)

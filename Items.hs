@@ -1,4 +1,4 @@
-module Items (
+module Item (
 Item(..)
 , OfferType(..)
 ) where
