@@ -48,7 +48,7 @@ where
     cheeseFP =  (Item "Cheese" 3.00 3.00 BOGOF)
     creamCheeseFP = (Item "CreamCheese" 2.50 1.00 REC)
      -- Alice Input
-    aliceReceipt = [appleFP,appleFP,appleFP,appleFP,watermelonFP,coffeeFP,lovageFP,cheeseFP,cheeseFP,creamCheeseFP,appleFP]
+    aliceReceipt = [appleFP,appleFP,appleFP,appleFP,appleFP,watermelonFP,coffeeFP,lovageFP,cheeseFP,cheeseFP,creamCheeseFP]
     crrReceipt =[]++aliceReceipt
  -----------------------------------------------------------------------------------
      --Shared Resource
@@ -149,7 +149,7 @@ where
     sortOffer :: [((Int,Item),(Int,Item))] -> [((Int,Item),(Int,Item))]
     sortOffer inputList = sortBy (\ x y -> compare (fst(snd x)) (fst(snd x))) inputList
 
-    test = sortOffer(preSortOffer(groupingOfferItemWithKeywordList(getOrderedGroupNamesFromConfig(bogofItems))))
+    testSortOffer = sortOffer(preSortOffer(groupingOfferItemWithKeywordList(getOrderedGroupNamesFromConfig(bogofItems))))
 
 
     --mkSingleOffer
@@ -161,6 +161,10 @@ where
       offerPrice = (/) (itNetPrice (snd (snd inputTuple))) 2.00
       }
     --mkAppliedOffers
+    mkAppliedOffers :: [((Int,Item),(Int,Item))] ->[Offer]
+    mkAppliedOffers inputList = map mkSingleOffer inputList
+
+    testMkAppliedOffers = mkAppliedOffers (testSortOffer)
 
 -----------------------------------------------------------------------------------
      -- Make a list of Reduced Items
