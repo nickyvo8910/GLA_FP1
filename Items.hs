@@ -6,9 +6,10 @@ Item(..)
 
     data Item = Item{
         itName :: String,
-        itNetPrice :: Float,
+        itNetPrice :: Double,
+        itReducedPrice :: Double,
         itOffer :: OfferType
     } deriving (Show, Eq, Ord)
 
 
-    data OfferType = BOGOF | Reduced | NA deriving (Show, Eq, Ord)
+    data OfferType = BOGOF | REC | NA deriving (Show, Eq, Ord)
